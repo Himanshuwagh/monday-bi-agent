@@ -1,5 +1,7 @@
 # Pipeline Intel – Monday.com BI Agent
 
+**🚀 Live Demo: [https://skylark-bi-agent.hwagh.com/](https://skylark-bi-agent.hwagh.com/)**
+
 AI agent that answers founder-level business questions using **live** monday.com data from Deals and Work Orders boards. No preload, no cache; every query hits the API.
 
 ## What it does
