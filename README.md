@@ -1,36 +1,43 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Pipeline Intel – Monday.com BI Agent
 
-## Getting Started
+AI agent that answers founder-level business questions using **live** monday.com data from Deals and Work Orders boards. No preload, no cache; every query hits the API.
 
-First, run the development server:
+## What it does
+
+- **Chat UI**: Ask in plain language (e.g. “How’s pipeline for energy this quarter?”).
+- **Live monday.com**: Each turn calls `get_deals` / `get_work_orders` via Monday GraphQL API.
+- **Messy data**: Handles missing values, normalizes formats, surfaces data-quality caveats.
+- **Trace**: Right pane shows which boards were queried, filters, row counts, and links to open boards.
+
+## Run locally
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Environment variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Create `.env.local` in the project root:
 
-## Learn More
+| Variable | Description |
+|----------|-------------|
+| `MONDAY_API_TOKEN` | monday.com API token (from Profile → API) |
+| `MONDAY_DEALS_BOARD_ID` | Board ID of your Deals board (number from board URL) |
+| `MONDAY_WORK_ORDERS_BOARD_ID` | Board ID of your Work Orders board |
+| `CLAUDE_API_KEY` | Anthropic API key for Claude |
+| `CLAUDE_MODEL` | (Optional) e.g. `claude-sonnet-4-20250514`; default is Haiku |
 
-To learn more about Next.js, take a look at the following resources:
+## Link to boards
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+After the app loads, the right pane shows **monday.com boards** with direct “Open →” links to the Deals and Work Orders boards (built from the board IDs in env). No extra setup.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Deploy
 
-## Deploy on Vercel
+Use any Node 18+ host (e.g. Vercel, Railway). Set the same env vars in the dashboard. No build step beyond `npm run build`.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Tech stack
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Next.js 16 (App Router), Anthropic Messages API with tool use, monday.com GraphQL API. See **DECISION_LOG.md** for why and what we’d improve.

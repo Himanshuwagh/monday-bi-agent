@@ -1,8 +1,16 @@
 @import "tailwindcss";
 
+/* Skylark Drones brand – matches keka job page & skylarkdrones.com */
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --skylark-orange: #f97316;
+  --skylark-orange-dark: #ea580c;
+  --skylark-orange-muted: #fff7ed;
+  --skylark-cyan: #06b6d4;
+  --skylark-cyan-muted: #ecfeff;
+  --skylark-slate: #64748b;
+  --skylark-border: #e2e8f0;
 }
 
 @theme inline {
@@ -12,15 +20,47 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Markdown tables in assistant replies */
+.markdown-response {
+  overflow-x: auto;
+}
+.markdown-response table {
+  width: 100%;
+  min-width: max-content;
+  border-collapse: collapse;
+  margin: 0.5rem 0;
+  font-size: 0.8125rem;
+}
+.markdown-response thead {
+  background: var(--skylark-orange-muted, #fff7ed);
+}
+.markdown-response th {
+  text-align: left;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid var(--skylark-border, #e2e8f0);
+  font-weight: 600;
+}
+.markdown-response td {
+  padding: 0.4rem 0.6rem;
+  border: 1px solid var(--skylark-border, #e2e8f0);
+}
+.markdown-response tbody tr:nth-child(even) {
+  background: #fafafa;
 }
