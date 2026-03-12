@@ -16,7 +16,12 @@ export type NormalizedDeal = {
   closureProbability: string | null;
   clientCode: string | null;
   ownerCode: string | null;
+  /** Raw Rupee integer as stored in monday.com */
   amount: number | null;
+  /** Pre-converted to Crores (amount / 10,000,000) — use this for arithmetic */
+  amountCr: number | null;
+  /** Pre-formatted display string e.g. "Rs. 1.47 Cr" — use this for display */
+  displayAmount: string | null;
   currency: string | null;
   closeDate: Date | null;
   tentativeCloseDate: Date | null;
@@ -52,14 +57,22 @@ function getColumnValue(item: MondayItem, columnId?: string) {
   return item.column_values.find((cv) => cv.id === columnId);
 }
 
+/** Convert a raw Rupee number into a human-readable Cr/L string. */
+export function formatInr(rawRupees: number): string {
+  const cr = rawRupees / 10_000_000;
+  if (cr >= 1) return `Rs. ${cr.toFixed(2)} Cr`;
+  const l = rawRupees / 100_000;
+  return `Rs. ${l.toFixed(2)} L`;
+}
+
 export function parseMoney(input: string | null | undefined) {
-  if (!input) return { amount: null, currency: null as string | null, issue: "missing_amount" as const };
+  if (!input) return { amount: null, amountCr: null as number | null, displayAmount: null as string | null, currency: null as string | null, issue: "missing_amount" as const };
 
   const cleaned = input.replace(/[, ]/g, "");
   const match = cleaned.match(/^([A-Za-z$€£¥])?(-?\d+(\.\d+)?)([kKmM])?$/);
 
   if (!match) {
-    return { amount: null, currency: null as string | null, issue: "unparseable_amount" as const };
+    return { amount: null, amountCr: null as number | null, displayAmount: null as string | null, currency: null as string | null, issue: "unparseable_amount" as const };
   }
 
   const symbol = match[1] ?? null;
@@ -70,7 +83,12 @@ export function parseMoney(input: string | null | undefined) {
   if (suffix === "k") multiplier = 1_000;
   if (suffix === "m") multiplier = 1_000_000;
 
-  return { amount: unit * multiplier, currency: symbol, issue: null as NormalizationIssue | null };
+  const rawRupees = unit * multiplier;
+  // Pre-convert to Crores so the LLM never has to do arithmetic on raw integers
+  const amountCr = rawRupees / 10_000_000;
+  const displayAmount = formatInr(rawRupees);
+
+  return { amount: rawRupees, amountCr, displayAmount, currency: symbol, issue: null as NormalizationIssue | null };
 }
 
 export function parseDate(input: string | null | undefined) {
@@ -181,6 +199,8 @@ export function normalizeDealItem(
     clientCode: clientCodeCv?.text ?? null,
     ownerCode: ownerCodeCv?.text ?? null,
     amount: money.amount,
+    amountCr: money.amountCr,
+    displayAmount: money.displayAmount,
     currency: money.currency,
     closeDate: date.date,
     tentativeCloseDate: tentativeDate.date,
