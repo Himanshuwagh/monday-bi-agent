@@ -18,7 +18,7 @@ const anthropic = new Anthropic({
 /** Keep API costs down: limit context and tool payload size without hurting accuracy. */
 const MAX_HISTORY_MESSAGES = 10;
 const MAX_ASSISTANT_CHARS = 800;
-const MAX_TOOL_ITEMS_PER_BOARD = 250;
+const MAX_TOOL_ITEMS_PER_BOARD = 1000;
 const MAX_TOKENS_INITIAL = 1024;
 const MAX_TOKENS_WITH_TOOLS = 2000;
 
