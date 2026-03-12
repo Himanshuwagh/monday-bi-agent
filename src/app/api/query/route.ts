@@ -28,6 +28,12 @@ DATA FIELDS
 Deals: name, sector, stage, dealStatus, closureProbability, clientCode, ownerCode, amount (INR), closeDate, tentativeCloseDate, createdDate, productDeal.
 Work Orders: name, sector, executionStatus, natureOfWork, typeOfWork, customerNameCode, amountExclGst, amountInclGst, billedValueExclGst, billedValueInclGst, collectedAmount, amountReceivable, poDate, probableStartDate, probableEndDate, invoiceStatus, woStatus.
 
+ACTUAL SECTOR VALUES IN THE BOARDS (use these exact spellings in filters):
+Deals board sectors: Aviation, Construction, DSP, Manufacturing, Mining, Others, Powerline, Railways, Renewables, Security and Surveillance, Tender.
+Work Orders board sectors: use same list; map Energy/Renewables → "Renewables", Power → "Powerline".
+When a user says "energy" or "renewable" → filter with sector=Renewables.
+When a user says "power" or "powerline" → filter with sector=Powerline.
+
 CRITICAL — CURRENCY (mistakes here are unacceptable):
 All monetary fields are stored as RAW RUPEES (plain integers). You MUST convert before displaying.
   14680800  →  14680800 / 10000000  =  1.47  →  "Rs. 1.47 Cr"

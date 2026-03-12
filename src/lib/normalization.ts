@@ -103,16 +103,24 @@ export function parseDate(input: string | null | undefined) {
 }
 
 const SECTOR_ALIASES: Record<string, string> = {
-  // Energy
-  energy: "Energy",
-  "energy sector": "Energy",
-  "energy & utilities": "Energy",
-  "energy and utilities": "Energy",
-  utilities: "Energy",
+  // Energy / Renewables — Deals board uses "Renewables" and "Powerline"
+  energy: "Renewables",
+  "energy sector": "Renewables",
+  "energy & utilities": "Renewables",
+  "energy and utilities": "Renewables",
+  utilities: "Renewables",
+  renewables: "Renewables",
+  "renewable energy": "Renewables",
+  solar: "Renewables",
+  wind: "Renewables",
   "oil & gas": "Oil & Gas",
   "oil and gas": "Oil & Gas",
   "o&g": "Oil & Gas",
   og: "Oil & Gas",
+  power: "Powerline",
+  "power sector": "Powerline",
+  powerline: "Powerline",
+  "power line": "Powerline",
   // Agriculture
   agri: "Agriculture",
   agriculture: "Agriculture",
@@ -122,14 +130,12 @@ const SECTOR_ALIASES: Record<string, string> = {
   // Infrastructure
   infra: "Infrastructure",
   infrastructure: "Infrastructure",
-  "infrastructure sector": "Infrastructure",
   // Government / Defense
   govt: "Government",
   gov: "Government",
   government: "Government",
   defense: "Defense",
   defence: "Defense",
-  "govt & defense": "Government",
   // Telecom
   telecom: "Telecom",
   telco: "Telecom",
@@ -137,20 +143,27 @@ const SECTOR_ALIASES: Record<string, string> = {
   // Mining
   mining: "Mining",
   mines: "Mining",
-  // Power
-  power: "Power",
-  "power sector": "Power",
-  "renewable energy": "Renewable Energy",
-  renewables: "Renewable Energy",
-  solar: "Renewable Energy",
-  wind: "Renewable Energy",
   // Construction
   construction: "Construction",
   "real estate": "Real Estate",
   realty: "Real Estate",
-  // Others
+  // Railways
+  railway: "Railways",
+  railways: "Railways",
+  rail: "Railways",
+  // Security
+  security: "Security and Surveillance",
+  surveillance: "Security and Surveillance",
+  "security and surveillance": "Security and Surveillance",
+  // Aviation
+  aviation: "Aviation",
+  // Logistics
   logistics: "Logistics",
   transport: "Logistics",
+  // Manufacturing
+  manufacturing: "Manufacturing",
+  // DSP
+  dsp: "DSP",
 };
 
 export function normalizeSector(raw: string | null | undefined): string | null {
